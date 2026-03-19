@@ -1,0 +1,437 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ seo.title }}</title>
+    <meta name="description" content="{{ seo.description }}">
+    <meta name="keywords" content="{{ seo.keywords }}">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="{{ seo.canonical_url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ seo.title }}">
+    <meta property="og:description" content="{{ seo.description }}">
+    <meta property="og:url" content="{{ seo.canonical_url }}">
+    <meta property="og:image" content="{{ seo.image_url }}">
+    <meta property="og:site_name" content="{{ doctor.name }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ seo.title }}">
+    <meta name="twitter:description" content="{{ seo.description }}">
+    <meta name="twitter:image" content="{{ seo.image_url }}">
+    <link rel="icon" type="image/x-icon" href="{% static 'portfolio/images/favicon.ico' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'portfolio/css/styles.css' %}">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Physician",
+            "name": "{{ doctor.name|escapejs }}",
+            "medicalSpecialty": "Nephrology",
+            "jobTitle": "{{ doctor.title|escapejs }}",
+            "description": "{{ seo.description|escapejs }}",
+            "telephone": "{{ contact.phone|escapejs }}",
+            "email": "{{ contact.email|escapejs }}",
+            "areaServed": "India",
+            "url": "{{ seo.canonical_url|escapejs }}",
+            "keywords": "{{ seo.keywords|escapejs }}"
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {% for item in faqs %}
+                {
+                    "@type": "Question",
+                    "name": "{{ item.question|escapejs }}",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "{{ item.answer|escapejs }}"
+                    }
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }
+    </script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-shell">
+            <div>
+                <p class="eyebrow">Renal Medicine</p>
+                <a class="brand" href="#top">{{ doctor.name }}</a>
+            </div>
+            <nav class="nav-links">
+                <a href="#about" data-nav-link>About</a>
+                <a href="#conditions" data-nav-link>Conditions</a>
+                <a href="#expertise" data-nav-link>Expertise</a>
+                <a href="#appointment" data-nav-link>Appointment</a>
+                <a href="#journey" data-nav-link>Journey</a>
+                <a href="#contact" data-nav-link>Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        {% if messages %}
+        <div class="container flash-stack">
+            {% for message in messages %}
+            <div class="flash-message flash-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <section class="hero">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow">Professional Nephrologist</p>
+                    <h1>{{ doctor.title }}</h1>
+                    <p class="lead">{{ doctor.tagline }}</p>
+                    <p class="identity">{{ doctor.name }} <br> <span>{{ doctor.credentials }}</span></p>
+                    <div class="cta-row">
+                        <a class="button button-primary" href="#contact">View Contact Details</a>
+                        <a class="button button-secondary" href="#expertise">Review Clinical Expertise</a>
+                    </div>
+                    <ul class="hero-highlights">
+                        {% for item in highlights %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <aside class="hero-card">
+                    <div class="portrait-frame">
+                        <div class="portrait-accent"></div>
+                        <div class="portrait-content">
+                            <p class="card-title">Clinical Snapshot</p>
+                            <div class="metric-grid">
+                                <div>
+                                    <strong>{{ doctor.experience }}</strong>
+                                    <span>Experience</span>
+                                </div>
+                                <div>
+                                    <strong>{{ doctor.patients }}</strong>
+                                    <span>Care setting</span>
+                                </div>
+                                <div>
+                                    <strong>{{ doctor.transplants }}</strong>
+                                    <span>Transplant focus</span>
+                                </div>
+                                <div>
+                                    <strong>{{ doctor.location }}</strong>
+                                    <span>Primary practice</span>
+                                </div>
+                            </div>
+                            <p class="card-note">
+                                Comprehensive Nephrology expertise spanning Chronic Kidney Disease, Proteinuria Evaluation, Dialysis Services, Renal Infections, and Transplant Medicine.
+                            </p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section" id="about">
+            <div class="container section-grid">
+                <div>
+                    <p class="eyebrow">About Dr. Vigneshwaran</p>
+                    <h2>Nephrology training grounded in high-volume kidney care and evidence-based medicine.</h2>
+                </div>
+                <div class="rich-copy">
+                    <p>
+                        {{ doctor.name }} is a nephrologist trained through high-volume academic and tertiary-care centers in Tamil Nadu and Kerala. His work includes chronic kidney disease care, dialysis supervision, acute kidney injury management, transplant-related nephrology, and renal care for medically complex hospital patients.
+                    </p>
+                    <p>
+                        His clinical interests include kidney disease, proteinuria, glomerular disorders, resistant hypertension, recurrent urine infection in kidney patients, and metabolic issues that can contribute to kidney stone recurrence or declining renal function.
+                    </p>
+                    <ul class="stack-list compact-list">
+                        {% for item in profile_points %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section keyword-section" id="conditions">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Kidney Conditions Managed</p>
+                    <h2>Clinical focus areas frequently searched by patients looking for a nephrologist.</h2>
+                    <p class="lead-small">
+                        Dr. Vigneshwaran evaluates Kidney Disease, Proteinuria, Kidney Stone-related Renal Risk, and Recurrent Urine Infection in patients who need specialist kidney assessment.
+                    </p>
+                </div>
+                <div class="card-grid four-up">
+                    {% for item in conditions %}
+                    <article class="info-card keyword-card">
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.description }}</p>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="section muted-section" id="expertise">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Core Expertise</p>
+                    <h2>Key nephrology services for Kidney Disease, Dialysis, Transplant Follow-up, and Renal Risk Assessment.</h2>
+                </div>
+                <div class="card-grid four-up">
+                    {% for item in expertise %}
+                    <article class="info-card">
+                        <h3>{{ item.title }}</h3>
+                        <p>{{ item.description }}</p>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="section muted-section" id="appointment">
+            <div class="container contact-grid">
+                <div>
+                    <p class="eyebrow">Appointment Request</p>
+                    <h2>Book a nephrology consultation for kidney disease, proteinuria, kidney stone, urine infection, or dialysis follow-up.</h2>
+                    <p class="lead-small">{{ appointment_intro }}</p>
+                    <ul class="stack-list compact-list">
+                        <li>Choose the kidney condition and preferred consultation slot.</li>
+                        <li>Add symptoms, diagnosis, reports, or current treatment in the clinical note.</li>                    </ul>
+                </div>
+                <div class="contact-card appointment-card">
+                    <form method="post" action="#appointment" class="appointment-form" novalidate>
+                        {% csrf_token %}
+                        <div class="honeypot-field" aria-hidden="true">
+                            <label for="{{ appointment_form.website.id_for_label }}">Website</label>
+                            {{ appointment_form.website }}
+                        </div>
+                        <div class="form-grid">
+                            {% for field in appointment_form %}
+                            {% if field.name != 'website' %}
+                            <div class="form-field{% if field.name == 'message' %} form-field-full{% endif %}">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                <div class="field-errors">
+                                    {% for error in field.errors %}
+                                    <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <button class="button button-primary full-width" type="submit">Submit Appointment Request</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container split-panel">
+                <div class="panel">
+                    <p class="eyebrow">Clinical Services</p>
+                    <h2>Nephrology consultation areas relevant to outpatient, inpatient, and dialysis care.</h2>
+                    <br>
+                    <ul class="check-list">
+                        {% for item in services %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="panel accent-panel">
+                    <p class="eyebrow">Professional Focus</p>
+                    <h2>Committed to structured renal care and institutional nephrology practice.</h2>
+                    <br>
+                    <p>
+                        {{ career_objective }}
+                    </p>
+                    <a class="text-link" href="#contact">Contact Dr. Vigneshwaran</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section muted-section">
+            <div class="container card-grid three-up">
+                <article class="info-card">
+                    <p class="eyebrow">Achievements</p>
+                    <ul class="stack-list">
+                        {% for item in achievements %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+                <article class="info-card">
+                    <p class="eyebrow">Research Focus</p>
+                    <ul class="stack-list">
+                        {% for item in research_focus %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+                <article class="info-card">
+                    <p class="eyebrow">Memberships and Certifications</p>
+                    <ul class="stack-list">
+                        {% for item in memberships %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                        {% for item in certifications %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Professional Strengths</p>
+                    <h2>Clinical strengths developed through supervised nephrology and renal medicine practice.</h2>
+                </div>
+                <div class="card-grid three-up">
+                    {% for item in strengths %}
+                    <article class="quote-card">
+                        <h3>{{ item.title }}</h3>
+                        <ul class="stack-list">
+                            {% for point in item.points %}
+                            <li>{{ point }}</li>
+                            {% endfor %}
+                        </ul>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="section faq-section">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Frequently Asked Questions</p>
+                    <h2>Common questions about Kidney Disease, Proteinuria, Urine Infection, and Dialysis Care.</h2>
+                </div>
+                <div class="faq-list">
+                    {% for item in faqs %}
+                    <details class="faq-item">
+                        <summary>{{ item.question }}</summary>
+                        <div class="faq-answer">
+                            <p>{{ item.answer }}</p>
+                        </div>
+                    </details>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="journey">
+            <div class="container">
+                <div class="section-heading">
+                    <p class="eyebrow">Professional Journey</p>
+                    <h2>Academic training and hospital experience in internal medicine and nephrology.</h2>
+                </div>
+                <div class="timeline">
+                    {% for item in journey %}
+                    <article class="timeline-item">
+                        <span class="timeline-year">{{ item.year }}</span>
+                        <div>
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.description }}</p>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section class="section contact-section" id="contact">
+            <div class="container contact-grid">
+                <div>
+                    <p class="eyebrow">Contact</p>
+                    <h2>Contact Dr. Vigneshwaran for nephrology consultations or professional opportunities.</h2>
+                    <p class="lead-small">
+                        This website presents the clinical training, kidney disease expertise, and professional profile of Dr. Vigneshwaran S for hospitals, collaborators, and patients seeking a nephrologist.
+                    </p>
+                    <p class="lead-small">Languages: {{ languages|join:", " }}</p>
+                </div>
+                <div class="contact-card">
+                    <h3>{{ contact.hospital }}</h3>
+                    <ul class="contact-list">
+                        <li><strong>Address:</strong> {{ contact.address }}</li>
+                        <li><strong>Email:</strong> {{ contact.email }}</li>
+                        <li><strong>Hours:</strong> {{ contact.hours }}</li>
+                    </ul>
+                    <a class="button button-primary full-width" href="mailto:{{ contact.email }}">Email Dr. Vigneshwaran</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script>
+        (() => {
+            const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
+            const sections = navLinks
+                .map((link) => document.querySelector(link.getAttribute("href")))
+                .filter(Boolean);
+
+            if (!navLinks.length || !sections.length) {
+                return;
+            }
+
+            const clearActiveLink = () => {
+                navLinks.forEach((link) => {
+                    link.classList.remove("is-active");
+                    link.removeAttribute("aria-current");
+                });
+            };
+
+            const setActiveLink = (id) => {
+                clearActiveLink();
+
+                const activeLink = navLinks.find((link) => link.getAttribute("href") === "#" + id);
+                if (activeLink) {
+                    activeLink.classList.add("is-active");
+                    activeLink.setAttribute("aria-current", "page");
+                }
+            };
+
+            const syncActiveLink = () => {
+                const headerOffset = 140;
+                const scrollPosition = window.scrollY + headerOffset;
+                let activeSectionId = "";
+
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        activeSectionId = section.id;
+                    }
+                });
+
+                if (!activeSectionId) {
+                    clearActiveLink();
+                    return;
+                }
+
+                setActiveLink(activeSectionId);
+            };
+
+            navLinks.forEach((link) => {
+                link.addEventListener("click", () => {
+                    const targetId = link.getAttribute("href").slice(1);
+                    setActiveLink(targetId);
+                });
+            });
+
+            window.addEventListener("scroll", syncActiveLink, { passive: true });
+            window.addEventListener("load", syncActiveLink);
+            syncActiveLink();
+        })();
+    </script>
+</body>
+</html>

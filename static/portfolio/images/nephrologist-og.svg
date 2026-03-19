@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Dr. Vigneshwaran S nephrologist profile card">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d6b66" />
+      <stop offset="100%" stop-color="#083f42" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" rx="24" />
+  <circle cx="940" cy="140" r="220" fill="rgba(255,255,255,0.08)" />
+  <circle cx="1040" cy="520" r="180" fill="rgba(199,137,67,0.18)" />
+  <text x="90" y="140" fill="#cfe9e7" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="4">NEPHROLOGY PORTFOLIO</text>
+  <text x="90" y="250" fill="#ffffff" font-family="Georgia, serif" font-size="62" font-weight="700">Dr. Vigneshwaran S</text>
+  <text x="90" y="315" fill="#dcefed" font-family="Arial, sans-serif" font-size="28">DrNB Nephrology, MD General Medicine, MBBS</text>
+  <text x="90" y="395" fill="#ffffff" font-family="Arial, sans-serif" font-size="34" font-weight="700">Kidney Disease | Proteinuria | Dialysis | Transplant Care</text>
+  <text x="90" y="455" fill="#dcefed" font-family="Arial, sans-serif" font-size="28">Kidney Stone Evaluation | Urine Infection in Renal Patients</text>
+  <rect x="90" y="500" width="360" height="56" rx="28" fill="#c78943" />
+  <text x="130" y="537" fill="#14282a" font-family="Arial, sans-serif" font-size="24" font-weight="700">Professional Clinical Profile</text>
+</svg>
