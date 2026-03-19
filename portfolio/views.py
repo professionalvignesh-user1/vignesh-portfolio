@@ -46,15 +46,15 @@ def home(request):
         else request.build_absolute_uri("/static/portfolio/images/nephrologist-og.svg")
     )
     seo_keywords = [
-        "nephrologist",
-        "best nephrologist profile",
-        "kidney disease specialist",
-        "proteinuria treatment",
-        "kidney stone evaluation",
-        "urine infection specialist",
-        "chronic kidney disease doctor",
-        "dialysis specialist",
-        "transplant nephrologist",
+        "best nephrologist in Chennai",
+        "nephrologist in Chennai" ,
+        "kidney specialist in Chennai",
+        "proteinuria treatment in Chennai",
+        "kidney stone specialist in Chennai",
+        "urine infection specialist in Chennai",
+        "chronic kidney disease doctor in Chennai",
+        "dialysis specialist in Chennai",
+        "transplant nephrologist in Chennai",
     ]
     context = {
         "doctor": {
@@ -248,7 +248,7 @@ def home(request):
         ),
         "appointment_form": appointment_form,
         "seo": {
-            "title": "Dr. Vigneshwaran S | Nephrologist for Kidney Disease, Proteinuria, Kidney Stone and Urine Infection",
+            "title": "Dr. Vigneshwaran S | Nephrologist and Kidney Specialist",
             "description": (
                 "Dr. Vigneshwaran S is a nephrologist with training in kidney disease, proteinuria, dialysis, "
                 "kidney stone evaluation, recurrent urine infection in kidney patients, transplant nephrology, and critical care renal medicine."

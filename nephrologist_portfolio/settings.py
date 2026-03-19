@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 import dj_database_url
 
@@ -37,6 +38,23 @@ raw_csrf_origins = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "")
 CSRF_TRUSTED_ORIGINS = [
     origin.strip() for origin in raw_csrf_origins.split(",") if origin.strip()
 ]
+
+site_url = os.getenv("SITE_URL", "").strip()
+if site_url:
+    parsed_site_url = urlparse(site_url)
+    if parsed_site_url.hostname and parsed_site_url.hostname not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(parsed_site_url.hostname)
+    origin = f"{parsed_site_url.scheme}://{parsed_site_url.netloc}"
+    if parsed_site_url.scheme and parsed_site_url.netloc and origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(origin)
+
+render_hostname = os.getenv("RENDER_EXTERNAL_HOSTNAME", "").strip()
+if render_hostname and render_hostname not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(render_hostname)
+if render_hostname:
+    render_origin = f"https://{render_hostname}"
+    if render_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(render_origin)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
