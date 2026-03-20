@@ -1,20 +1,34 @@
+import logging
+import os
+
+from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
+from django.db import DatabaseError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils.html import escape
 from django.utils.timezone import now
-import os
 
 from .forms import AppointmentForm
+
+logger = logging.getLogger(__name__)
 
 
 def home(request):
     if request.method == "POST":
         appointment_form = AppointmentForm(request.POST)
         if appointment_form.is_valid():
-            appointment = appointment_form.save()
+            try:
+                appointment = appointment_form.save()
+            except DatabaseError:
+                logger.exception("Failed to save appointment request")
+                messages.error(
+                    request,
+                    "We could not save your appointment request right now. Please try again after the database is configured correctly.",
+                )
+                return HttpResponseRedirect(f"{reverse('home')}#appointment")
             email_sent = send_appointment_notification(appointment)
             if email_sent:
                 messages.success(
@@ -262,7 +276,7 @@ def home(request):
 
 
 def send_appointment_notification(appointment):
-    recipient = os.getenv("APPOINTMENT_NOTIFICATION_EMAIL") or os.getenv("DJANGO_EMAIL_HOST_USER")
+    recipient = settings.APPOINTMENT_NOTIFICATION_EMAIL or settings.EMAIL_HOST_USER
     if not recipient:
         return False
 
@@ -290,8 +304,9 @@ def send_appointment_notification(appointment):
     )
 
     try:
-        send_mail(subject, message, None, [recipient], fail_silently=False)
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
     except Exception:
+        logger.exception("Failed to send appointment notification email")
         return False
     return True
 
