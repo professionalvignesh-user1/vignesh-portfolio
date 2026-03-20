@@ -322,7 +322,7 @@ def send_appointment_notification(appointment):
         
         req = urllib.request.Request(url, data=json.dumps(data).encode("utf-8"), headers=headers, method="POST")
         try:
-            with urllib.request.urlopen(req) as response:
+            with urllib.request.urlopen(req, timeout=10) as response:
                 return True
         except Exception as e:
             logger.exception(f"Failed to send appointment notification email via Resend API: {e}")
