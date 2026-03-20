@@ -311,7 +311,8 @@ def send_appointment_notification(appointment):
         url = "https://api.resend.com/emails"
         headers = {
             "Authorization": f"Bearer {resend_api_key}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
         }
         data = {
             "from": "Clinic Notifications <onboarding@resend.dev>",
