@@ -303,12 +303,37 @@ def send_appointment_notification(appointment):
         ]
     )
 
-    try:
-        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
-    except Exception:
-        logger.exception("Failed to send appointment notification email")
-        return False
-    return True
+    resend_api_key = os.getenv("RESEND_API_KEY")
+    if resend_api_key:
+        import json
+        import urllib.request
+        
+        url = "https://api.resend.com/emails"
+        headers = {
+            "Authorization": f"Bearer {resend_api_key}",
+            "Content-Type": "application/json"
+        }
+        data = {
+            "from": "Clinic Notifications <onboarding@resend.dev>",
+            "to": [recipient],
+            "subject": subject,
+            "text": message
+        }
+        
+        req = urllib.request.Request(url, data=json.dumps(data).encode("utf-8"), headers=headers, method="POST")
+        try:
+            with urllib.request.urlopen(req) as response:
+                return True
+        except Exception as e:
+            logger.exception(f"Failed to send appointment notification email via Resend API: {e}")
+            return False
+    else:
+        try:
+            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
+        except Exception:
+            logger.exception("Failed to send appointment notification email")
+            return False
+        return True
 
 
 def robots_txt(request):
